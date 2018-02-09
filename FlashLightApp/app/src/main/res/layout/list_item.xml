@@ -5,6 +5,5 @@
     android:layout_height="match_parent"
     android:padding="10dip"
     android:textSize="16dip"
-    android:textStyle="bold"
     android:textColor="@android:color/white">
 </TextView>

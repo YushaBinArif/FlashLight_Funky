@@ -16,7 +16,7 @@
         android:textColor="@color/colorWhite"
         android:paddingLeft="5dp"
         android:paddingTop="5dp"
-        android:background="@color/colorBlack"
+        android:background="#2c3e50"
         android:text="Settings"
 
         />
@@ -39,7 +39,7 @@
         android:textColor="@color/colorWhite"
         android:paddingLeft="5dp"
         android:paddingTop="5dp"
-        android:background="@color/colorBlack"
+        android:background="#2c3e50"
         android:text="List Of Available Networks"
 
         />

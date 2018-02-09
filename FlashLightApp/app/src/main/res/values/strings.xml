@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FlashLightApp</string>
+    <string name="app_name">Flash</string>
     <string name="speech_prompt">say something</string>
     <string name="speech_not_supported">Opps... Your mobile doesn\'t support speech recognition</string>
 </resources>

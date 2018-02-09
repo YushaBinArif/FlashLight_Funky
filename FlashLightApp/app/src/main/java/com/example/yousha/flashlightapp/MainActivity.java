@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -22,10 +24,14 @@ import android.os.Build;
 import android.speech.RecognizerIntent;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
@@ -49,12 +55,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Boolean isTorchOn;
     private MediaPlayer mp;
     WifiManager wifiManager;
-    private TextView battery_Status, battery_percent;
+    private TextView battery_Status, battery_percent, light;
     private int SELECT_CAMERA = 0;
     SensorManager sensorManager;
     Sensor light_sensor;
-    static boolean AUTO_FLASH = false;
-
+    static boolean AUTO_FLASH = true;
+    ActionBar actionBar;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -63,6 +69,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         Log.d("FlashLightActivity", "onCreate()");
         setContentView(R.layout.activity_main);
+        actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2c3e50")));
+        //getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2c3e50")));
         mTorchOnOffButton = (ImageButton) findViewById(R.id.imgbtn);
         isTorchOn = false;
         switchFlash = (ImageView) findViewById(R.id.flash);
@@ -71,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         light_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        //light = (TextView) findViewById(R.id.light);
         sensorManager.registerListener(this, light_sensor, SensorManager.SENSOR_DELAY_NORMAL);
         battery_percent = (TextView) findViewById(R.id.batterypercent);
         Wifi = (ImageView) findViewById(R.id.wifi);
@@ -364,7 +374,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
                 if (level != -1 & scale != -1) {
                     int batteryPercent = (int) ((level / (float) scale) * 100f);
-                    battery_percent.setText(batteryPercent + "%");
+                    battery_percent.setText("Battey: "+batteryPercent + "%");
 
                 }
                 int charging_status = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0);
@@ -430,11 +440,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
 
 
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void onSensorChanged(SensorEvent event) {
+
             if (AUTO_FLASH) {
                 if (event.values[0] < 1) {
-                    turnOffFlashLight();
+                    turnOnFlashLight();
                     isTorchOn = true;
                     toggleButtonImage();
                 } else {
@@ -443,9 +455,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     toggleButtonImage();
                 }
 
+
             }
             else
             {}
+
 
         }
 
@@ -454,8 +468,25 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.custom_actionbar,menu);
+        return true;
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.settings :
+                startActivity(new Intent(MainActivity.this,Main2Activity.class));
+
+        }
+        return true;
+    }
+}
 
 
 
