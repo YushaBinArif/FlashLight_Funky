@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private int SELECT_CAMERA = 0;
     SensorManager sensorManager;
     Sensor light_sensor;
-    static boolean AUTO_FLASH = true;
+    static boolean AUTO_FLASH = false;
     ActionBar actionBar;
 
 
@@ -449,11 +449,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     turnOnFlashLight();
                     isTorchOn = true;
                     toggleButtonImage();
-                } else {
-                    turnOffFlashLight();
-                    isTorchOn = false;
-                    toggleButtonImage();
                 }
+//                else {
+//                    turnOffFlashLight();
+//                    isTorchOn = false;
+//                    toggleButtonImage();
+//                }
 
 
             }
